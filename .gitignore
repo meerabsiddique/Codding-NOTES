@@ -1,0 +1,10 @@
+.vs/
+x64/
+*.user
+*.suo
+*.ipch
+*.pdb
+*.ilk
+*.obj
+*.idb
+*.tlog/

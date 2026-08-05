@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Lab — Exam Cheat Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #13151c;
+    --surface2: #1a1d27;
+    --border: #252836;
+    --accent: #7c6af7;
+    --accent2: #3ecfb2;
+    --accent3: #f7a54a;
+    --accent4: #f76a6a;
+    --text: #e8eaf0;
+    --muted: #7a7f94;
+    --code-bg: #0a0c10;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 24px;
+  }
+
+  .header {
+    border-left: 4px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 32px;
+  }
+  .header h1 { font-size: 28px; font-weight: 800; color: #fff; }
+  .header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .full { grid-column: 1 / -1; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-purple { background: var(--accent); }
+  .dot-teal   { background: var(--accent2); }
+  .dot-amber  { background: var(--accent3); }
+  .dot-red    { background: var(--accent4); }
+
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    line-height: 1.75;
+    margin: 8px 0;
+  }
+  .kw  { color: #c792ea; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .str { color: var(--accent3); }
+  .num { color: var(--accent2); }
+  .fn  { color: #82aaff; }
+  .tp  { color: #ffcb6b; }
+
+  .tip {
+    background: #1a1d27;
+    border-left: 3px solid var(--accent3);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .tip strong { color: var(--accent3); }
+
+  .warn {
+    background: #1f1518;
+    border-left: 3px solid var(--accent4);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .warn strong { color: var(--accent4); }
+
+  .ok {
+    background: #121e1d;
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .ok strong { color: var(--accent2); }
+
+  ul { padding-left: 18px; }
+  li { margin-bottom: 4px; font-size: 13px; color: var(--text); }
+  li::marker { color: var(--accent); }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-right: 4px;
+  }
+  .tag-purple { background: #2a2353; color: var(--accent); }
+  .tag-teal   { background: #0f2723; color: var(--accent2); }
+  .tag-amber  { background: #2a1f0f; color: var(--accent3); }
+  .tag-red    { background: #2a1010; color: var(--accent4); }
+
+  .freq-badge {
+    display: inline-block;
+    background: #2a2353;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+  }
+
+  h3 { font-size: 13px; font-weight: 700; color: var(--accent2); margin: 10px 0 6px; }
+  p { font-size: 13px; color: #9fa3b5; margin-bottom: 6px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 24px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  td, th { padding: 7px 10px; border: 1px solid var(--border); text-align: left; }
+  th { background: var(--surface2); color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: .05em; }
+  tr:hover td { background: var(--surface2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>OOP Lab — Exam Cheat Sheet</h1>
+  <p>Compiled from past papers 2017–2023 · FAST-NU Lahore · Good luck tomorrow 💪</p>
+</div>
+
+<!-- ───── MOST REPEATED PATTERNS ───── -->
+<div class="section-label">🔥 Most Repeated Question Types</div>
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-red"></div>Dynamic 2D Arrays <span class="freq-badge">8x</span></div>
+    <ul>
+      <li>Allocate / deallocate int**</li>
+      <li>Compress / partition matrix</li>
+      <li>Remove duplicates in 2D</li>
+      <li>Swap triangular halves</li>
+    </ul>
+    <div class="warn"><strong>Always:</strong> delete inner arrays first, then outer</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="dot dot-purple"></div>Inheritance + Polymorphism <span class="freq-badge">7x</span></div>
+    <ul>
+      <li>Abstract base class + pure virtual</li>
+      <li>Media/Animal/Item hierarchy</li>
+      <li>Array of base class pointers</li>
+      <li>Virtual display() / print()</li>
+    </ul>
+    <div class="tip"><strong>Always:</strong> virtual destructor in base class</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>Operator Overloading <span class="freq-badge">6x</span></div>
+    <ul>
+      <li>+, -, [], ++, == on custom class</li>
+      <li>&lt;&lt; and &gt;&gt; for I/O</li>
+      <li>BinaryNum, Polynomial, HugeInt</li>
+    </ul>
+    <div class="tip"><strong>Friend</strong> needed for &lt;&lt; and &gt;&gt;</div>
+  </div>
+</div>
+
+<!-- ───── DYNAMIC 2D ARRAY TEMPLATE ───── -->
+<div class="section-label">⚡ Reusable Code Templates</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-red"></div>Dynamic 2D Array — Full Template</div>
+    <pre><span class="cm">// ALLOCATE</span>
+<span class="kw">int</span>** <span class="fn">allocate</span>(<span class="kw">int</span>& r, <span class="kw">int</span>& c) {
+    cin >> r >> c;
+    <span class="kw">int</span>** m = <span class="kw">new</span> <span class="kw">int</span>*[r];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;r; i++)
+        m[i] = <span class="kw">new</span> <span class="kw">int</span>[c]();  <span class="cm">// () = zero init</span>
+    <span class="kw">return</span> m;
+}
+
+<span class="cm">// PRINT</span>
+<span class="kw">void</span> <span class="fn">display</span>(<span class="kw">int</span>** m, <span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;r;i++){
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;c;j++)
+            cout&lt;&lt;m[i][j]&lt;&lt;<span class="str">" "</span>;
+        cout&lt;&lt;endl;
+    }
+}
+
+<span class="cm">// DEALLOCATE</span>
+<span class="kw">void</span> <span class="fn">deallocate</span>(<span class="kw">int</span>** m, <span class="kw">int</span> r) {
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;r;i++)
+        <span class="kw">delete</span>[] m[i];   <span class="cm">// inner first</span>
+    <span class="kw">delete</span>[] m;           <span class="cm">// then outer</span>
+    m = <span class="kw">nullptr</span>;
+}</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-purple"></div>Abstract Class + Polymorphism Template</div>
+    <pre><span class="kw">class</span> <span class="tp">Animal</span> {
+<span class="kw">protected</span>:
+    <span class="kw">char</span>* name;
+<span class="kw">public</span>:
+    <span class="tp">Animal</span>(<span class="kw">const char</span>* n){
+        name = <span class="kw">new char</span>[strlen(n)+<span class="num">1</span>];
+        strcpy(name, n);
+    }
+    <span class="kw">virtual void</span> <span class="fn">display</span>() = <span class="num">0</span>; <span class="cm">// pure virtual</span>
+    <span class="kw">virtual</span> ~<span class="tp">Animal</span>() { <span class="kw">delete</span>[] name; }
+};
+
+<span class="kw">class</span> <span class="tp">Bird</span> : <span class="kw">public</span> <span class="tp">Animal</span> {
+    <span class="kw">string</span> color;
+<span class="kw">public</span>:
+    <span class="tp">Bird</span>(<span class="kw">const char</span>* n, string c)
+        : <span class="tp">Animal</span>(n), color(c) {}
+    <span class="kw">void</span> <span class="fn">display</span>() <span class="kw">override</span> {
+        cout &lt;&lt; name &lt;&lt; <span class="str">" chirps\n"</span>;
+    }
+};
+
+<span class="cm">// In main — array of base pointers</span>
+<span class="tp">Animal</span>* arr[<span class="num">3</span>];
+arr[<span class="num">0</span>] = <span class="kw">new</span> <span class="tp">Bird</span>(<span class="str">"Parrot"</span>, <span class="str">"green"</span>);
+arr[<span class="num">0</span>]-&gt;<span class="fn">display</span>(); <span class="cm">// polymorphic call</span>
+<span class="kw">delete</span> arr[<span class="num">0</span>];    <span class="cm">// calls correct destructor</span></pre>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>Operator Overloading — Key Patterns</div>
+    <pre><span class="kw">class</span> <span class="tp">MyClass</span> {
+    <span class="kw">int</span>* data; <span class="kw">int</span> size;
+<span class="kw">public</span>:
+    <span class="cm">// + operator (returns new object)</span>
+    <span class="tp">MyClass</span> <span class="kw">operator</span>+(<span class="tp">MyClass</span>& other);
+
+    <span class="cm">// [] subscript</span>
+    <span class="kw">int</span>& <span class="kw">operator</span>[](<span class="kw">int</span> i){ <span class="kw">return</span> data[i]; }
+
+    <span class="cm">// prefix ++</span>
+    <span class="tp">MyClass</span>& <span class="kw">operator</span>++();
+
+    <span class="cm">// postfix ++ (dummy int)</span>
+    <span class="tp">MyClass</span> <span class="kw">operator</span>++(<span class="kw">int</span>);
+
+    <span class="cm">// == comparison</span>
+    <span class="kw">bool</span> <span class="kw">operator</span>==(<span class="tp">MyClass</span>& o);
+
+    <span class="cm">// unary minus (pop / negate)</span>
+    <span class="tp">MyClass</span> <span class="kw">operator</span>-();
+
+    <span class="cm">// << and >> MUST be friend</span>
+    <span class="kw">friend</span> ostream& <span class="kw">operator</span>&lt;&lt;
+        (ostream& os, <span class="kw">const</span> <span class="tp">MyClass</span>& obj);
+    <span class="kw">friend</span> istream& <span class="kw">operator</span>&gt;&gt;
+        (istream& is, <span class="tp">MyClass</span>& obj);
+};</pre>
+    <div class="warn"><strong>Postfix++:</strong> save copy BEFORE increment, return the copy</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-amber"></div>char* Member — Always Do This</div>
+    <pre><span class="cm">// Constructor — deep copy</span>
+<span class="tp">Item</span>(<span class="kw">const char</span>* n) {
+    name = <span class="kw">new char</span>[strlen(n)+<span class="num">1</span>];
+    strcpy(name, n);
+}
+
+<span class="cm">// Copy constructor</span>
+<span class="tp">Item</span>(<span class="kw">const</span> <span class="tp">Item</span>& o) {
+    name = <span class="kw">new char</span>[strlen(o.name)+<span class="num">1</span>];
+    strcpy(name, o.name);
+}
+
+<span class="cm">// Assignment operator</span>
+<span class="tp">Item</span>& <span class="kw">operator</span>=(<span class="kw">const</span> <span class="tp">Item</span>& o) {
+    <span class="kw">if</span>(<span class="kw">this</span> != &o) {       <span class="cm">// self-check!</span>
+        <span class="kw">delete</span>[] name;
+        name = <span class="kw">new char</span>[strlen(o.name)+<span class="num">1</span>];
+        strcpy(name, o.name);
+    }
+    <span class="kw">return</span> *<span class="kw">this</span>;
+}
+
+<span class="cm">// Destructor</span>
+~<span class="tp">Item</span>() { <span class="kw">delete</span>[] name; name=<span class="kw">nullptr</span>; }</pre>
+    <div class="warn"><strong>Never</strong> use <code>=</code> to copy char* — always strcpy</div>
+  </div>
+</div>
+
+<!-- ───── TEMPLATES ───── -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>Template Function + Class</div>
+    <pre><span class="cm">// Template function</span>
+<span class="kw">template</span> &lt;<span class="kw">typename</span> <span class="tp">T</span>&gt;
+<span class="tp">T</span> <span class="fn">findMax</span>(<span class="tp">T</span>** arr, <span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="tp">T</span> max = arr[<span class="num">0</span>][<span class="num">0</span>];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;r;i++)
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;c;j++)
+            <span class="kw">if</span>(arr[i][j] &gt; max) max=arr[i][j];
+    <span class="kw">return</span> max;
+}
+
+<span class="cm">// Template class</span>
+<span class="kw">template</span> &lt;<span class="kw">class</span> <span class="tp">T</span>&gt;
+<span class="kw">class</span> <span class="tp">Stack</span> {
+    <span class="tp">T</span>* data; <span class="kw">int</span> top, size;
+<span class="kw">public</span>:
+    <span class="tp">Stack</span>(<span class="kw">int</span> s): size(s), top(-<span class="num">1</span>)
+        { data = <span class="kw">new</span> <span class="tp">T</span>[s]; }
+    <span class="kw">void</span> <span class="fn">push</span>(<span class="tp">T</span> val){ data[++top]=val; }
+    <span class="tp">T</span>    <span class="fn">pop</span>()       { <span class="kw">return</span> data[top--]; }
+    <span class="kw">bool</span> <span class="fn">isEmpty</span>()  { <span class="kw">return</span> top==-<span class="num">1</span>; }
+    ~<span class="tp">Stack</span>(){ <span class="kw">delete</span>[] data; }
+};</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-amber"></div>Exception Handling Template</div>
+    <pre><span class="cm">// Throw in function</span>
+<span class="kw">void</span> <span class="fn">enQueue</span>(<span class="tp">T</span> val){
+    <span class="kw">if</span>(isFull())
+        <span class="kw">throw</span> <span class="tp">runtime_error</span>(
+            <span class="str">"Queue is full!"</span>);
+    <span class="cm">// ... push logic</span>
+}
+
+<span class="cm">// Catch in main</span>
+<span class="kw">try</span> {
+    q.<span class="fn">enQueue</span>(<span class="num">5</span>);
+} <span class="kw">catch</span>(<span class="tp">runtime_error</span>& e) {
+    cout &lt;&lt; e.<span class="fn">what</span>() &lt;&lt; endl;
+    <span class="cm">// ask user y/n</span>
+    <span class="kw">char</span> ch; cin &gt;&gt; ch;
+    <span class="kw">if</span>(ch==<span class="str">'y'</span>) q.<span class="fn">flush</span>();
+    <span class="kw">else</span> <span class="kw">return</span> <span class="num">0</span>;
+} <span class="kw">catch</span>(<span class="tp">bad_cast</span>& e) {
+    cout &lt;&lt; e.<span class="fn">what</span>(); <span class="cm">// downcasting fail</span>
+} <span class="kw">catch</span>(...) {
+    cout &lt;&lt; <span class="str">"Unknown error"</span>;
+}</pre>
+    <div class="tip"><strong>bad_cast</strong> is thrown when dynamic_cast on a reference fails</div>
+  </div>
+</div>
+
+<!-- ───── COMPOSITION & AGGREGATION ───── -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-purple"></div>Composition vs Aggregation — Quick</div>
+    <pre><span class="cm">// COMPOSITION — Shelf owns Media objects</span>
+<span class="kw">class</span> <span class="tp">Shelf</span> {
+    <span class="tp">Media</span>** items; <span class="cm">// owns them</span>
+    <span class="kw">int</span> currSize, maxSize;
+<span class="kw">public</span>:
+    <span class="tp">Shelf</span>(<span class="kw">int</span> max): maxSize(max), currSize(<span class="num">0</span>){
+        items = <span class="kw">new</span> <span class="tp">Media</span>*[maxSize];
+    }
+    <span class="kw">void</span> <span class="fn">insert</span>(<span class="tp">Media</span>* m){ items[currSize++]=m; }
+    ~<span class="tp">Shelf</span>(){
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;currSize;i++)
+            <span class="kw">delete</span> items[i]; <span class="cm">// delete each item</span>
+        <span class="kw">delete</span>[] items;
+    }
+};
+
+<span class="cm">// AGGREGATION — Enclosure uses Zookeeper</span>
+<span class="kw">class</span> <span class="tp">Enclosure</span> {
+    <span class="tp">Zookeeper</span>* zk; <span class="cm">// does NOT own it</span>
+<span class="kw">public</span>:
+    <span class="tp">Enclosure</span>(<span class="tp">Zookeeper</span>* z): zk(z) {}
+    ~<span class="tp">Enclosure</span>(){  <span class="cm">// do NOT delete zk</span>
+    }
+};</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>Useful String Functions (cstring)</div>
+    <pre><span class="cm">// Don't forget: #include &lt;cstring&gt;</span>
+
+strlen(s)           <span class="cm">// length (no \0)</span>
+strcpy(dest, src)   <span class="cm">// copy string</span>
+strcat(dest, src)   <span class="cm">// concatenate</span>
+strcmp(a, b)        <span class="cm">// 0 if equal</span>
+strstr(s, sub)      <span class="cm">// find substring</span>
+
+<span class="cm">// Always allocate +1 for null terminator</span>
+<span class="kw">char</span>* s = <span class="kw">new char</span>[strlen(str)+<span class="num">1</span>];
+
+<span class="cm">// char digit to int</span>
+<span class="kw">char</span> c = <span class="str">'5'</span>;
+<span class="kw">int</span> n = c - <span class="num">48</span>;   <span class="cm">// or c - '0'</span>
+
+<span class="cm">// int to char digit</span>
+<span class="kw">char</span> c = n + <span class="str">'0'</span>;
+
+<span class="cm">// #include &lt;string&gt; for std::string</span>
+string s = <span class="str">"hello"</span>;
+s.length();  s.substr(<span class="num">1</span>,<span class="num">3</span>);  s.find(<span class="str">"el"</span>);</pre>
+    <div class="ok"><strong>Tip:</strong> past papers often mix char* and string — use char* when the class stores it as <code>char*</code></div>
+  </div>
+</div>
+
+<!-- ───── PAST PAPER PATTERNS ───── -->
+<div class="section-label">📋 Pattern From Each Past Paper</div>
+<div class="card full">
+  <div class="card-title"><div class="dot dot-amber"></div>What Each Paper Tested</div>
+  <table>
+    <tr>
+      <th>Paper</th>
+      <th>Q1 Topic</th>
+      <th>Q2 Topic</th>
+      <th>Key Trick</th>
+    </tr>
+    <tr>
+      <td><span class="tag tag-purple">2017 Final</span></td>
+      <td>Inheritance — Page/Document (Factory pattern)</td>
+      <td>Queue using 2 Stacks + Templates + Exceptions</td>
+      <td>Page* array in Document, virtual CreatePages()</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-teal">2018 Mid</span></td>
+      <td>2D array compression (average 3x3 window)</td>
+      <td>HugeInt class with dynamic int array</td>
+      <td>Output array is (R-2)×(C-2), char-to-int: c-48</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-amber">2019 Final</span></td>
+      <td>Abstract Media → Book/Magazine/CD + Shelf</td>
+      <td>Template range function on 2D array</td>
+      <td>pure virtual display(), Media** in Shelf</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-red">2019 Mid</span></td>
+      <td>BinaryNum class — all operators overloaded</td>
+      <td>Polynomial multiply and divide</td>
+      <td>Postfix++ saves old copy; prod size = m+n-1</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-purple">2020 Final Fall</span></td>
+      <td>Pharmacy — Item/Perishable/Permanent/Bulk</td>
+      <td>Python-style List class with operators</td>
+      <td>Price logic in virtual getPrice(), unary- pops first</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-teal">2020 Mid Fall</span></td>
+      <td>Matrix partitioning — SplitUp returns 4 sub-matrices</td>
+      <td>RemoveAllRepetitions from int** (2 passes)</td>
+      <td>-1 = row end delimiter, 0 = array end delimiter</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-amber">2023 Final</span></td>
+      <td>Zoo — Animal/Bird/Mammal/Reptile + Enclosure + Zookeeper</td>
+      <td>Swap upper/lower triangular of matrix</td>
+      <td>vector&lt;Animal*&gt; in Enclosure (composition)</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ───── CRITICAL TRICKS ───── -->
+<div class="section-label">🎯 Critical Tricks & Common Mistakes</div>
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-red"></div>Memory — Never Forget</div>
+    <ul>
+      <li>Delete inner before outer in 2D arrays</li>
+      <li>Always set pointer to <code>nullptr</code> after delete</li>
+      <li>Deep copy in copy constructor — never shallow</li>
+      <li>Check <code>this != &other</code> in operator=</li>
+      <li>Virtual destructor in every base class with pointers</li>
+      <li><code>delete</code> for single object, <code>delete[]</code> for arrays</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="dot dot-amber"></div>Polymorphism Rules</div>
+    <ul>
+      <li>Must have <code>virtual</code> for runtime dispatch</li>
+      <li>Pure virtual = <code>= 0</code> → class becomes abstract</li>
+      <li>Override in child: same signature + <code>override</code> keyword</li>
+      <li>dynamic_cast needs virtual functions to work</li>
+      <li>Base pointer can hold derived object</li>
+      <li><code>dynamic_cast</code> → nullptr on pointer fail, bad_cast on ref fail</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>Quick Fixes When Stuck</div>
+    <ul>
+      <li>Compile error on &lt;&lt;/&gt;&gt; → add <code>friend</code></li>
+      <li>Can't call derived function via base ptr → check <code>virtual</code></li>
+      <li>Crash on delete → probably double-delete or dangling ptr</li>
+      <li>Wrong copy → use strcpy not =</li>
+      <li>Template not found → define in .h not .cpp</li>
+      <li>Abstract class object error → check all pure virtuals are overridden</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ───── INITIALIZER LIST REMINDER ───── -->
+<div class="grid">
+  <div class="card">
+    <div class="card-title"><div class="dot dot-purple"></div>Initializer List — Use Always</div>
+    <pre><span class="cm">// Instead of this (assignments in body)</span>
+<span class="tp">Car</span>(<span class="kw">string</span> b, <span class="kw">int</span> hp) {
+    brand = b;       <span class="cm">// assignment</span>
+    engine = <span class="tp">Engine</span>(hp); <span class="cm">// creates then copies</span>
+}
+
+<span class="cm">// Do THIS (initializer list — constructs directly)</span>
+<span class="tp">Car</span>(<span class="kw">string</span> b, <span class="kw">int</span> hp)
+    : brand(b), engine(hp)  <span class="cm">// engine constructed once</span>
+{
+    cout &lt;&lt; <span class="str">"Car ready\n"</span>;
+}
+
+<span class="cm">// MUST use initializer list for:</span>
+<span class="cm">// - const members</span>
+<span class="cm">// - reference members</span>
+<span class="cm">// - objects without default constructor</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot dot-teal"></div>vector&lt;T*&gt; vs T** — When to Use</div>
+    <pre><span class="cm">// vector (modern, 2023 paper used this)</span>
+<span class="kw">#include</span> <span class="str">&lt;vector&gt;</span>
+vector&lt;<span class="tp">Animal</span>*&gt; animals;
+animals.<span class="fn">push_back</span>(<span class="kw">new</span> <span class="tp">Bird</span>(...));
+animals.<span class="fn">size</span>();       <span class="cm">// count</span>
+<span class="kw">for</span>(<span class="kw">auto</span> a : animals) a-&gt;<span class="fn">display</span>();
+
+<span class="cm">// Manual T** (older papers, more common)</span>
+<span class="tp">Animal</span>** items = <span class="kw">new</span> <span class="tp">Animal</span>*[maxSize];
+<span class="kw">int</span> count = <span class="num">0</span>;
+items[count++] = <span class="kw">new</span> <span class="tp">Bird</span>(...);
+<span class="cm">// delete loop needed in destructor</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;count;i++) <span class="kw">delete</span> items[i];
+<span class="kw">delete</span>[] items;</pre>
+    <div class="ok"><strong>Both appear in papers</strong> — know both patterns</div>
+  </div>
+</div>
+
+<div class="section-label">⚡ Last-Minute Reminders</div>
+<div class="grid-3">
+  <div class="card"><div class="card-title"><div class="dot dot-red"></div>Headers to include</div>
+    <pre><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;cstring&gt;</span>   <span class="cm">// strcpy strlen</span>
+<span class="kw">#include</span> <span class="str">&lt;string&gt;</span>    <span class="cm">// std::string</span>
+<span class="kw">#include</span> <span class="str">&lt;vector&gt;</span>    <span class="cm">// vector</span>
+<span class="kw">#include</span> <span class="str">&lt;stdexcept&gt;</span> <span class="cm">// runtime_error</span>
+<span class="kw">#include</span> <span class="str">&lt;typeinfo&gt;</span>  <span class="cm">// bad_cast</span>
+<span class="kw">using namespace</span> std;</pre>
+  </div>
+  <div class="card"><div class="card-title"><div class="dot dot-amber"></div>Read the question first</div>
+    <ul>
+      <li>Check if main() is provided — match it exactly</li>
+      <li>Spot which classes are abstract (pure virtual)</li>
+      <li>Identify composition vs aggregation (who creates?)</li>
+      <li>Count how many new/delete pairs you need</li>
+      <li>Note if char* or string is used in the given code</li>
+    </ul>
+  </div>
+  <div class="card"><div class="card-title"><div class="dot dot-teal"></div>Score fast on these</div>
+    <ul>
+      <li>Constructor + destructor = easy marks</li>
+      <li>Copy constructor when char* is there</li>
+      <li>Getters/setters if asked</li>
+      <li>display() and print() functions</li>
+      <li>Allocate + deallocate functions for 2D</li>
+      <li>operator<< with friend keyword</li>
+    </ul>
+  </div>
+</div>
+
+<div style="text-align:center;padding:24px 0 8px;color:var(--muted);font-size:12px;">
+  You've got this. Read the question twice, write the destructor first, trust your notes. 🚀
+</div>
+
+</body>
+</html>
